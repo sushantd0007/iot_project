@@ -1,0 +1,26 @@
+#define PIR_PIN 2
+#define TEMP_SENSOR_PIN A0
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(PIR_PIN, INPUT);
+}
+
+void loop() {
+  // PIR motion sensor
+  int motionStatus = digitalRead(PIR_PIN);
+  if (motionStatus == HIGH) {
+    Serial.println("Motion detected!");
+  }
+
+  // TMP36 temperature sensor
+  int sensorValue = analogRead(TEMP_SENSOR_PIN);
+  float voltage = (sensorValue / 1023.0) * 5.0; // Convert analog value to voltage (5V reference)
+  float temperatureC = (voltage - 0.5) * 100.0; // TMP36 output voltage is 500mV at 0 degrees Celsius
+
+  Serial.print("Temperature: ");
+  Serial.print(temperatureC);
+  Serial.println("°C");
+
+  delay(10000); // Delay for 10 second between readings
+}
